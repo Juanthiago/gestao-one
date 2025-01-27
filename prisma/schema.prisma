@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id              String          @id @default(uuid())
+  name            String          
+  email           String          @unique
+  password        String
+  cpfCnpj         String          @unique
+  accountType     AccountType
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  personalFinance PersonalFinance? @relation("UserPersonaFinace") 
+  businessAccount BusinessAccount? @relation("UserBunessAccount")
+}
+model PersonalFinance {
+  id         String       @id @default(uuid())
+  user       User         @relation("UserPersonaFinace", fields: [userId], references: [id])
+  userId     String       @unique
+  balance    Float        @default(0.0)
+  incomes    Income[]     
+  expenses   Expense[]    
+}
+
+model Income {
+  id                 String       @id @default(uuid())
+  description        String
+  amount             Float
+  category           String
+  createdAt          DateTime     @default(now())
+  personalFinanceId  String
+  PersonalFinance    PersonalFinance @relation(fields: [personalFinanceId], references: [id])
+}
+
+model Expense {
+  id                 String       @id @default(uuid())
+  description        String
+  amount             Float
+  category           String
+  createdAt          DateTime     @default(now())
+  personalFinanceId  String
+  PersonalFinance    PersonalFinance @relation(fields: [personalFinanceId], references: [id])
+}
+
+model BusinessAccount {
+  id              String       @id @default(uuid())
+  user            User         @relation("UserBunessAccount", fields: [userId], references: [id])
+  userId          String       @unique
+  balance         Float        @default(0.0)
+  products        Product[]    
+  stockMovements  StockMovement[]
+}
+
+model Product {
+  id          String       @id @default(uuid())
+  name        String
+  quantity    Int
+  unitPrice   Float
+  businessId  String
+  BusinessAccount BusinessAccount @relation(fields: [businessId], references: [id])
+  stockMovements  StockMovement[] 
+}
+
+model StockMovement {
+  id          String       @id @default(uuid())
+  type        StockType    // Enum: ENTRY or EXIT
+  quantity    Int
+  productId   String
+  product     Product      @relation(fields: [productId], references: [id])
+  businessId  String
+  BusinessAccount BusinessAccount @relation(fields: [businessId], references: [id])
+  createdAt   DateTime     @default(now())
+}
+
+enum AccountType {
+  PERSONAL
+  BUSINESS
+}
+
+enum StockType {
+  ENTRY
+  EXIT
+}
+
