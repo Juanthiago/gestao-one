@@ -4,10 +4,10 @@ import {
     getAllTransactionSummary,
 } from '../controllers/transaction.controller.js';
 
-const transactionRoutes = (app, _opts, done) => {
+const transactionRoutes = (app, opts, done) => {
     app.post('/transactions', createTransaction);
     app.get('/transactions', getAllTransaction);
-    app.get('/transactions', getAllTransactionSummary);
+    app.get('/transactions/summary', getAllTransactionSummary);
     done()
 };
 

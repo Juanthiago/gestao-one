@@ -117,3 +117,32 @@ export const signup = async (req, reply) => {
         });
     }
 };
+
+
+export const login = async (req,reply) => {
+    const { email, password } = req.body;
+
+    try {
+        if (!email || !password) {
+            return reply.status(400).send({
+                success: false,
+                error: 'Email ou senha não informados',
+            })
+        }
+
+        if (!invalidPasswordEmail(email, password)) {
+            return reply.status(400).send({
+                success: false,
+                error: 'Email ou senha inválidos',
+            })
+        }
+
+    } catch (error) {
+        console.error('Erro ao fazer login: ', error);
+        return reply.status(500).send({
+            success: false,
+            error: 'Erro ao fazer login. Por Favor, tente novamente.',
+            details: process.env.NODE_ENV === 'development' ?  error.message : undefined
+        });
+    }
+};

@@ -23,3 +23,16 @@ Content-Type: application/json
     "unitPrice": 3.500,
     "businessId": "81818857-67d7-476e-8301-d6633a1ca2f6"
 }
+
+###
+POST http://localhost:4000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "dev@contabilidade2.com.br",
+    "password": "12345678"
+}
+###
+POST http://localhost:4000/api/checkout HTTP/1.1
+x-user-id: aaaaa0dd-5dc5-423b-8cdb-60593f40d1fb
+ 

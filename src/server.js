@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import app from './config/app.js';
 import registerRoutes from './routes/auth.routes.js';
+import checkoutRoutes from './routes/stripe.routes.js';
 
 const startServer = async () => {
     try {
@@ -12,5 +13,8 @@ const startServer = async () => {
         process.exit(1);
     }
 };
+
+app.register(registerRoutes);
+app.register(checkoutRoutes);
 
 startServer();

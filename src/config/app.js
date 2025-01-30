@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import authRoutes from '../routes/auth.routes.js'
 import productRoutes from '../routes/product.js'
 import transactionRoutes from '../routes/transaction.routes.js'
+import checkoutRoutes from '../routes/stripe.routes.js'
 
 const app = fastify({ logger: true });
 
@@ -17,5 +18,8 @@ app.get('/', async (request, reply) => {
 
 app.register(authRoutes, { prefix: '/api/auth'});
 app.register(productRoutes, { prefix: '/api/product'});
+app.register(transactionRoutes, { prefix: '/api/transaction'});
+app.register(checkoutRoutes, { prefix: '/api/checkout'})
 
 export default app;
+
