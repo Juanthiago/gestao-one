@@ -13,12 +13,14 @@
     "@prisma/client": "^5.0.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.4.7",
-    "fastify": "^4.0.0",
+    "fastify": "^4.29.0",
+    "git": "^0.1.5",
     "jsonwebtoken": "^9.0.0",
+    "react": "^19.0.0",
     "stripe": "^17.6.0"
   },
   "devDependencies": {
-    "prisma": "^5.0.0"
+    "prisma": "^5.22.0"
   },
   "keywords": [
     "Saas",

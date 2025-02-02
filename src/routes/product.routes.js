@@ -10,6 +10,7 @@ const productRoutes = (app, opts, done) => {
     app.get('/products', getAllProduct);
     app.put('/products/:id',updateProduct);
     app.delete('/products/:id', deleteProduct);
+    
     done();
 }
 

@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import authRoutes from '../routes/auth.routes.js'
-import productRoutes from '../routes/product.js'
+import productRoutes from '../routes/product.routes.js'
 import transactionRoutes from '../routes/transaction.routes.js'
 import checkoutRoutes from '../routes/stripe.routes.js'
 

@@ -33,6 +33,8 @@ Content-Type: application/json
     "password": "12345678"
 }
 ###
-POST http://localhost:4000/api/checkout HTTP/1.1
+POST http://localhost:4000/api/checkout/checkout HTTP/1.1
 x-user-id: aaaaa0dd-5dc5-423b-8cdb-60593f40d1fb
- 
+
+
+

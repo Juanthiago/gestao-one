@@ -3,6 +3,11 @@ import prisma from '../config/database.js';
 export const createProduct = async (req, reply) => {
     const { name, quantity, unitPrice, businessId } = req.body;
 
+    if (!name || !quantity || !unitPrice || !businessId) {
+        return reply.status(404).send({ error: 'Dados incompletos' });
+    }
+
+
     try {
         const product = await prisma.product.create({ 
         data: { 
@@ -22,7 +27,7 @@ export const createProduct = async (req, reply) => {
         reply.status(201).send({
             success: true,
             message: 'Produto criado com sucesso',
-            product
+            product,
        });
 
 
@@ -31,7 +36,7 @@ export const createProduct = async (req, reply) => {
 
         reply.status(500).send({ 
             error: 'Erro ao criar o produto',
-            message: errProduct.message 
+            message: errProduct.message,
         }); 
     }
 };

@@ -57,9 +57,8 @@ export const signup = async (req, reply) => {
                 email, 
                 password: hashedPassword, 
                 cpfCnpj,
-                accountType   
+                accountType, 
             },
-        
         });
     } catch (dbError) {
         console.error('Erro ao criar usuário no banco de dados:', dbError);
@@ -121,28 +120,57 @@ export const signup = async (req, reply) => {
 
 export const login = async (req,reply) => {
     const { email, password } = req.body;
-
+        
     try {
         if (!email || !password) {
             return reply.status(400).send({
                 success: false,
-                error: 'Email ou senha não informados',
-            })
+                error: 'Email e senha são obrigatórios.',
+            });
         }
 
-        if (!invalidPasswordEmail(email, password)) {
+        const user = await prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (!user) {
             return reply.status(400).send({
                 success: false,
-                error: 'Email ou senha inválidos',
-            })
+                error: 'Email ou senha inválidos.',
+            });
         }
 
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return reply.status(400).send({
+                success: false,
+                error: 'Email ou senha inválidos.',
+            });
+        }
+
+        const token = signToken({
+            id: user.id,
+            name: user.name,
+            accountType: user.accountType,
+        });
+
+        return reply.status(200).send({
+            success: true,
+            message: 'Login realizado com sucesso.',
+            user: {
+                id: user.id,
+                name: user.name,
+                accountType: user.accountType,
+            },
+            token,
+        });
     } catch (error) {
-        console.error('Erro ao fazer login: ', error);
+        console.error('Erro ao fazer login:', error);
         return reply.status(500).send({
             success: false,
-            error: 'Erro ao fazer login. Por Favor, tente novamente.',
-            details: process.env.NODE_ENV === 'development' ?  error.message : undefined
+            error: 'Erro ao fazer login. Por favor, tente novamente.',
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined,
         });
     }
 };

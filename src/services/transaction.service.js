@@ -7,8 +7,8 @@ export const getAllTransactionsSummary = async async => {
     const expense = await prisma.transaction.aggregate ({ where: { type: expense}, _sum: {amount: true}});
 
     return { 
-        totalIncome: incomes._sum.amount || 0,
-        totalExepense: expenses._sum.amount || 0,
+        totalIncome: income._sum.amount || 0,
+        totalExepense: expense._sum.amount || 0,
         balace: (incomes_sum.amount || 0) - (expenses._sum.amount || 0),
     };
 };

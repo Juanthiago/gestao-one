@@ -2,7 +2,7 @@ const {Entity, PrimaryGeneratedColumn, Column, ManyToOne} = require('typeorm');
 import (User) = './user.model.js';
 
 @Entity()
-class Transaction {
+class transaction  {
     @PrimaryGeneratedColumn()
     id;
     @Column()
@@ -13,6 +13,6 @@ class Transaction {
     category;
     @Column()
     description;
-    @ManyToOne(() => User, (user) => user.Transaction)
+    @ManyToOne(() => User, (user) => user.transaction)
     user;
 }

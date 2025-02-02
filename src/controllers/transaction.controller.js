@@ -73,7 +73,7 @@ export const getAllTransaction = async (req, reply) => {
 export const getAllTransactionSummary = async (req, reply) => {
     try {
         const income = await prisma.income.aggregate({
-            where: { type: 'income'},
+            where: { type: 'income',},
             _sum: { amount: true}
         });
         const expense = await prisma.expense.aggregate({
@@ -81,8 +81,8 @@ export const getAllTransactionSummary = async (req, reply) => {
             _sum: {amount: true},
         });
         const summary = {
-            totalIncome: incomes._sum.amount || 0,
-            totalExpense: expenses._sum.amount || 0,
+            totalIncome: income._sum.amount || 0,
+            totalExpense: expense._sum.amount || 0,
             balace: (incomes._sum.amount || 0 ) - (expenses._sum.amount || 0),
         };
 
